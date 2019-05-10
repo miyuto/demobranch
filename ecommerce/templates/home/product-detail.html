@@ -1,0 +1,86 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% block title %}
+    Chi tiết sản phẩm
+{% endblock %}
+{% block content %}
+    <section>
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-3">
+                    {% include 'home/menu-item.html' %}
+				</div>
+
+				<div class="col-sm-9 padding-right">
+					<div class="product-details"><!--product-details-->
+						<div class="col-sm-5">
+							<div class="view-product">
+								<img src="{% static product.product_image %}" alt="">
+								<h3>ZOOM</h3>
+							</div>
+							<div id="similar-product" class="carousel slide" data-ride="carousel">
+
+								  <!-- Wrapper for slides -->
+								    <div class="carousel-inner">
+										<div class="item active left">
+                                            {% for item in productImage %}
+                                                 <a href=""><img src="{% static item.image_path %}" alt=""></a>
+                                            {% endfor %}
+										</div>
+										<div class="item next left">
+										    {% for item in productImage %}
+                                                 <a href=""><img src="{% static item.image_path %}" alt=""></a>
+                                            {% endfor %}
+										</div>
+										<div class="item">
+										    {% for item in productImage %}
+                                                 <a href=""><img src="{% static item.image_path %}" alt=""></a>
+                                            {% endfor %}
+										</div>
+
+									</div>
+
+								  <!-- Controls -->
+								  <a class="left item-control" href="#similar-product" data-slide="prev">
+									<i class="fa fa-angle-left"></i>
+								  </a>
+								  <a class="right item-control" href="#similar-product" data-slide="next">
+									<i class="fa fa-angle-right"></i>
+								  </a>
+							</div>
+
+						</div>
+						<div class="col-sm-7">
+                            <form action="{% url 'cart_add' product.product_id %}" method="post">
+                            {% csrf_token %}
+                                <div class="product-information"><!--/product-information-->
+                                    <img src="images/product-details/new.jpg" class="newarrival" alt="">
+                                    <h2>{{ product.product_name }}</h2>
+                                    <p>Web ID: {{ product.product_id }}</p>
+                                    <img src="{% static 'images/product-details/rating.png' %}" alt="">
+                                    <span>
+                                        <span>US ${{ product.product_price }}</span>
+                                        <label>Quantity:</label>
+                                        <input type="text" value="1" name="quantity">
+                                        <button type="submit" class="btn btn-fefault cart">
+                                            <i class="fa fa-shopping-cart"></i>
+                                            Add to cart
+                                        </button>
+                                    </span>
+                                    {% if product.product_status == 1 %}
+                                        <p><b>Availability:</b> In Stock</p>
+                                    {% elif product.product_status == 0 %}
+                                        <p><b>Availability:</b> Not Stock</p>
+                                    {% endif %}
+                                    <p><b>Condition:</b> New</p>
+                                    <a href=""><img src="{% static 'images/product-details/share.png' %}" class="share img-responsive" alt=""></a>
+                                </div><!--/product-information-->
+                            </form>
+						</div>
+					</div><!--/product-details-->
+
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}
